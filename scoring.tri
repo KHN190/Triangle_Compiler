@@ -1,0 +1,124 @@
+let
+	var Ali1 : array 6 of Char;
+	var Ali2 : array 6 of Char;	! two aligments.
+	var i : Integer;
+	var j : Integer;	! environment variables.
+	var c : Char;	! temporary char variable.
+
+	type Sequence ~ record
+		b : array 7 of Integer
+	end;
+
+	type Table ~ record
+		a : array 7 of Sequence
+	end;
+
+	! Create a table.
+	var T : Table;
+
+	! Derive the alignment in a sequence.
+	func Derive( var Ali : array 6 of Char, var i : Integer ) : Char ~
+		if (i < 6) /\ (i >= 0) then
+			Ali[i]
+		else
+			'r';
+
+	! Read an alignment from command line.
+	proc Read( var Ali : array 6 of Char ) ~
+		let
+			var i : Integer
+		in begin
+			put('>');
+			i := 0;
+			while i < 6 do begin
+				get(var Ali[i]);
+				i := i + 1
+			end;
+		end;
+
+	! Calculate substitution value.
+	func Sub( var x : Char, var y : Char ) : Integer ~
+		if ( x = y ) then
+			0
+		else
+			1;
+
+	! Caculate Delete value.
+	func Del( var x: Char ) : Integer ~
+		1;
+
+	! Calulate Insert value.
+	func Ins( var x : Char ) : Integer ~
+		1;
+
+	proc putline( var T : Table ) ~
+		let
+			var i : Integer;
+			var j : Integer
+		in begin
+			i := 0; j := 0;
+			while i <= 6 do begin
+				while j <=6 do begin
+					putint(T.a[i].b[j]);put(' ');
+					j := j + 1
+				end;
+				puteol();
+				i := i + 1
+			end;
+			puteol()
+		end;
+
+	! Caculate the minimal value of two.
+	func min( var x : Integer, var y : Integer ) : Integer ~
+			if ( x > y ) then
+				y
+			else
+				x
+
+in begin
+	Read( var Ali1 );
+	Read( var Ali2 );
+
+	i := 1; j := 1;
+	T.a[0].b[0] := 0;	! Initialization.
+
+	while j <= 6 do begin
+		c := Derive( var Ali2, var j ); put('c'); put(c);
+		T.a[0].b[j] := T.a[0].b[j-1] + Ins( var c );
+		j := j + 1
+	end;
+
+	while i <= 6 do begin
+		let
+			var d : Char
+		in begin
+			c := Derive( var Ali1, var i );
+			T.a[i].b[0] := T.a[i-1].b[0] + Del( var c );
+
+			j := 1;
+			while j <= 6 do begin
+				let
+					var m : Integer;
+					var x : Integer;
+					var y : Integer;
+					var z : Integer
+				in begin
+					d := Derive( var Ali2, var j );
+					x := T.a[i-1].b[j-1] + Sub( var c, var d );
+					y := T.a[i-1].b[j] + Del( var c );
+					z := T.a[i].b[j-1] + Ins( var d );
+
+					m := min( var x, var y );
+					m := min( var m, var z );	! find the minimal.
+					put('m'); put('='); putint(m); puteol();
+
+					T.a[i].b[j] := m;	! set value.
+
+					j := j + 1
+				end
+			end;
+			i := i + 1
+		end
+	end;
+	putline( var T );
+end
