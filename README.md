@@ -1,6 +1,9 @@
 Triangle_Compiler
 -----------------
-miniTriangle Language Compiler
+### mini-Triangle Language Compiler
+
+* [_Programming Language Processors in Java_](http://www.cin.ufpe.br/~jml/programming-language-processors-in-java-compilers-and-interpreters.9780130257864.25356.pdf)
+
 - - -
 + 2014.5.5  `for-loop` added.
 + 2014.5.5  `scoring.tri`(test file) added.
