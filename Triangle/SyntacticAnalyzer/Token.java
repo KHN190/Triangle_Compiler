@@ -87,6 +87,7 @@ final class Token extends Object {
     TYPE		= 21,
     VAR			= 22,
     WHILE		= 23,
+  CASE        = 38      // add'
 
     // punctuation...
     DOT			= 24,

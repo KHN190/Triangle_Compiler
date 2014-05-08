@@ -19,6 +19,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.swing.text.TableView.TableRow;
+
 import TAM.Instruction;
 import TAM.Machine;
 import Triangle.ErrorReporter;
@@ -90,6 +92,7 @@ import Triangle.AbstractSyntaxTrees.Vname;
 import Triangle.AbstractSyntaxTrees.VnameExpression;
 import Triangle.AbstractSyntaxTrees.WhileCommand;
 import Triangle.AbstractSyntaxTrees.ForCommand;
+import Triangle.AbstractSyntaxTrees.CaseCommand;
 
 public final class Encoder implements Visitor {
 
@@ -109,6 +112,31 @@ public final class Encoder implements Visitor {
     ast.I.visit(this, new Frame(frame.level, argsSize));
     return null;
   }
+
+  public Object visitCaseCommand(CaseCommand ast, Object o) {
+        Frame frame = (Frame) o;
+        // space for boolean of did we use a case.
+        emit(Machine.PUSHop, 0, 0, 1, ast.getPosition().start);
+        for(IntegerLiteral IL : ast.MAP.keySet()){
+            ast.E.visit(this, frame);
+            emit(Machine.LOADLop, 0, 0, Integer.parseInt(IL.spelling), ast.getPosition().start);
+            emit(Machine.LOADLop, 0,0,1, ast.getPosition().start);
+            emit(Machine.CALLop, Machine.LBr, Machine.PBr, Machine.eqDisplacement, ast.getPosition().start);
+            int jumpAddr = nextInstrAddr;
+            emit(Machine.JUMPIFop, Machine.falseRep, Machine.CBr, jumpAddr, ast.getPosition().start);
+            ast.MAP.get(IL).visit(this, frame);
+            emit(Machine.LOADLop, 0, 0, 1, ast.getPosition().start);
+            emit(Machine.STOREop, 1, Machine.STr, -2, ast.getPosition().start);
+            patch(jumpAddr, nextInstrAddr);
+        }
+        emit(Machine.LOADop, 1, Machine.STr, -1, ast.getPosition().start);
+        int jumpEndAddr = nextInstrAddr;
+        emit(Machine.JUMPIFop, Machine.trueRep, Machine.CBr, jumpEndAddr, ast.getPosition().start);
+        ast.C.visit(this, frame);
+        patch(jumpEndAddr, nextInstrAddr);
+        emit(Machine.POPop, 0, 0, 1, ast.getPosition().start);
+        return null;
+    }
 
   public Object visitEmptyCommand(EmptyCommand ast, Object o) {
     return null;
