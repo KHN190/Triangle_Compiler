@@ -4,6 +4,8 @@ Triangle_Compiler
 
 * [_Programming Language Processors in Java_](http://www.cin.ufpe.br/~jml/programming-language-processors-in-java-compilers-and-interpreters.9780130257864.25356.pdf)
 
+The directory is a complete project compiled by Netbeans.
+
 - - -
 + 2014.5.5  `for-loop` added.
 + 2014.5.5  `scoring.tri`(test file) added.
