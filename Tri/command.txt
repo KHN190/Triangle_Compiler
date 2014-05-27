@@ -1,0 +1,3 @@
+javac Triangle\*.java Triangle\AbstractSyntaxTrees\*.java Triangle\CodeGenerator\*.java Triangle\ContextualAnalyzer\*.java Triangle\SyntacticAnalyzer\*.java Triangle\TreeDrawer\*.java TAM\*.java 
+java Triangle.Compiler case.tri
+java TAM.Interpreter obj.tam

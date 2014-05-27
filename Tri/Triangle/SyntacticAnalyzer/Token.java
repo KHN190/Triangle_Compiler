@@ -63,65 +63,75 @@ final class Token extends Object {
     // literals, identifiers, operators...
     INTLITERAL	= 0,
     CHARLITERAL	= 1,
-    IDENTIFIER	= 2,
-    OPERATOR	= 3,
+    STRINGLITERAL = 2,
+    IDENTIFIER	= 3,
+    OPERATOR	= 4,
+  	ADDOPERATOR	= 5,
+  	MULTOPERATOR	= 6,
 
     // reserved words - must be in alphabetical order...
-    ARRAY		= 4,
-    BEGIN		= 5,
-    CONST		= 6,
-    DO			= 7,
-    ELSE		= 8,
-    END			= 9,
-	FOR         = 10,     // add
-	FROM        = 11,     // add
-    FUNC		= 12,
-    IF			= 13,
-    IN			= 14,
-    LET			= 15,
-    OF			= 16,
-    PROC		= 17,
-    RECORD		= 18,
-    THEN		= 19,
-	TO          = 20,     // add
-    TYPE		= 21,
-    VAR			= 22,
-    WHILE		= 23,
-  CASE        = 38,      // add'
+    ARRAY		= 7,
+    BEGIN		= 8,
+    CASE		= 9,
+    CONST		= 10,
+    DO			= 11,
+    ELSE		= 12,
+    END			= 13,
+    FOR			= 14,
+    FROM		= 15,
+    FUNC		= 16,
+    IF			= 17,
+    IN			= 18,
+    LET			= 19,
+    OF			= 20,
+    PROC		= 21,
+    RECORD		= 22,
+    REPEAT		= 23,
+    STRING		= 24,
+    THEN		= 25,
+    TO			= 26,
+    TYPE		= 27,
+    UNTIL		= 28,
+    VAR			= 29,
+    WHILE		= 30,
 
     // punctuation...
-    DOT			= 24,
-    COLON		= 25,
-    SEMICOLON	= 26,
-    COMMA		= 27,
-    BECOMES		= 28,
-    IS			= 29,
+    DOT			= 31,
+    COLON		= 32,
+    SEMICOLON	= 33,
+    COMMA		= 34,
+    BECOMES		= 35,
+    IS			= 36,
 
     // brackets...
-    LPAREN		= 30,
-    RPAREN		= 31,
-    LBRACKET	= 32,
-    RBRACKET	= 33,
-    LCURLY		= 34,
-    RCURLY		= 35,
-
+    LPAREN		= 37,
+    RPAREN		= 38,
+    LBRACKET	= 39,
+    RBRACKET	= 40,
+    LCURLY		= 41,
+    RCURLY		= 42,
+    
     // special tokens...
-    EOT			= 36,
-    ERROR		= 37;
+    EOT			= 43,
+    ERROR		= 44;
 
   private static String[] tokenTable = new String[] {
     "<int>",
     "<char>",
+    "<stringliteral>",
     "<identifier>",
     "<operator>",
+    "<addoperator>",
+    "<multopertor>",
     "array",
     "begin",
+    "case",
     "const",
     "do",
     "else",
     "end",
-	"for",          //add
-	"from",         //add
+    "for",
+    "from",
     "func",
     "if",
     "in",
@@ -129,9 +139,12 @@ final class Token extends Object {
     "of",
     "proc",
     "record",
+    "repeat",
+    "string",
     "then",
-	"to",          //add
+    "to",
     "type",
+    "until",
     "var",
     "while",
     ".",
@@ -147,11 +160,9 @@ final class Token extends Object {
     "{",
     "}",
     "",
-    "<error>",
-  "case"
+    "<error>"
   };
 
   private final static int	firstReservedWord = Token.ARRAY,
-                  lastReservedWord  = Token.WHILE;
-
+  				lastReservedWord  = Token.WHILE;
 }

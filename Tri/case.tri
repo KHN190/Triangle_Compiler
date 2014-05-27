@@ -1,0 +1,23 @@
+let
+	var i : Integer;
+	var str : string 3;
+	var arr : array 3 of Integer
+
+in begin
+
+	i := 1;
+	str := "abc";
+
+	puts("put string:");
+	puteol();
+
+	case i of
+		1: putint(1);
+		2: putint(2);
+		else : putint(3);
+	puteol();
+
+	puts(str); puteol();
+	put(str[1]);
+
+end
